@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { products } from "@/db/schema";
 import z from "zod";
 import { FormState } from "@/types";
-import { and, eq, ne, sql } from "drizzle-orm";
+import { and, eq, isNull, ne, or, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export const submitProduct = async (
@@ -114,10 +114,14 @@ export const upVote = async (productId: number) => {
     await db
       .update(products)
       .set({
-        voteCount: sql`GREATEST(0, voteCount + 1)`,
+        voteCount: sql`GREATEST(0, vote_count + 1)`,
       })
-      .where(and(eq(products.id, productId), ne(products.userId, userId)));
-
+      .where(
+        and(
+          eq(products.id, productId),
+          or(ne(products.userId, userId), isNull(products.userId))
+        )
+      );
     revalidatePath("/");
 
     return {
@@ -154,12 +158,19 @@ export const downVote = async (productId: number) => {
       };
     }
 
-    await db
+    const test = await db
       .update(products)
       .set({
         voteCount: sql`GREATEST(0, vote_count - 1)`,
       })
-      .where(and(eq(products.id, productId), ne(products.userId, userId)));
+      .where(
+        and(
+          eq(products.id, productId),
+          or(ne(products.userId, userId), isNull(products.userId))
+        )
+      );
+
+    console.log(test);
 
     revalidatePath("/");
     return {
