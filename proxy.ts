@@ -34,7 +34,6 @@ export default clerkMiddleware(async (auth) => {
         createdBy: userId,
       });
 
-      console.log("Auto-created organization:", orgName);
     } catch (error) {
       console.error("Error auto-creating organization:", error);
     }

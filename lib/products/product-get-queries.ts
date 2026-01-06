@@ -20,7 +20,6 @@ export async function getProductBySlug(slug: string) {
     .from(products)
     .where(eq(products.slug, slug));
 
-  console.log(product);
   return product?.[0] ?? null;
 }
 

@@ -41,7 +41,6 @@ export const submitProduct = async (
     const validatedData = productSchema.safeParse(rawFormData);
 
     if (!validatedData.success) {
-      console.log(validatedData.error.flatten().fieldErrors);
       return {
         success: false,
         errors: validatedData.error.flatten().fieldErrors,
@@ -169,8 +168,6 @@ export const downVote = async (productId: number) => {
           or(ne(products.userId, userId), isNull(products.userId))
         )
       );
-
-    console.log(test);
 
     revalidatePath("/");
     return {

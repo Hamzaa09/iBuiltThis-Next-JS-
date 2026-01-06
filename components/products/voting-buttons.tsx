@@ -26,7 +26,6 @@ export default function VotingButtons({
     startTransition(async () => {
       setOptimisticVoteCount(1);
       const result = await upVote(productId);
-      console.log(result);
     });
   };
 
@@ -34,7 +33,6 @@ export default function VotingButtons({
     startTransition(async () => {
       setOptimisticVoteCount(-1);
       const result = await downVote(productId);
-      console.log(result);
     });
   };
   return (

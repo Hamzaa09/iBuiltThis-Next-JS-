@@ -14,13 +14,13 @@ export default async function AdminPage() {
     redirect("/sign-in");
   }
 
-  const response = await clerkClient();
-  const user = await response.users.getUser(userId!);
+  // const response = await clerkClient();
+  // const user = await response.users.getUser(userId!);
 
-  const metaData = user.publicMetadata;
-  const isAdmin = metaData?.isAdmin;
+  // const metaData = user.publicMetadata;
+  // const isAdmin = metaData?.isAdmin;
 
-  if (!isAdmin) redirect("/");
+  // if (!isAdmin) redirect("/");
 
   const allProducts = await getAllProducts();
 
